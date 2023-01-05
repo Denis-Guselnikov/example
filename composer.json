@@ -1,0 +1,20 @@
+{
+    "name": "guselnikov/example",
+    "description": "test-composer",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "denis",
+            "email": "denis@d.ru"
+        }
+    ],
+    "require": {
+        "ext-simplexml": "*"
+    }
+}
