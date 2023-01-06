@@ -24,7 +24,6 @@ class ExchangedAmount
 
         $file = simplexml_load_file('http://www.cbr.ru/scripts/XML_daily.asp');
         $xml = $file->xpath("//Valute");
-        print_r($xml);
         $valutes = array();
         for ($i=0; $i<=33; $i++) {
             $value = floatval($xml[$i]->Value);
