@@ -4,6 +4,9 @@ namespace CoolLib;
 
 class ExchangedAmount
 {
+    // $from, $to название валюты из списка
+    // $amount сумма которую собираются обменять
+
     private $from;
     private  $to;
     private $amount;
@@ -15,37 +18,40 @@ class ExchangedAmount
         $this->amount = $amount;
     }
 
-    public function GetCurrency(): void
+    public function GetCurrency()
     {
-        // Добавил в массив ключ(CharCode) -> значение(Value)
+        // Добавил в массив $valutes ключ(CharCode) -> значение(Value)
 
         $file = simplexml_load_file('http://www.cbr.ru/scripts/XML_daily.asp');
         $xml = $file->xpath("//Valute");
-        $arr = array();
-        for ($i=0; $i<=34; $i++) {
-            $value = strval($xml[$i]->Value);
+        print_r($xml);
+        $valutes = array();
+        for ($i=0; $i<=33; $i++) {
+            $value = floatval($xml[$i]->Value);
             $code = strval($xml[$i]->CharCode);
-            $arr[$code] = $value;
+            $valutes[$code] = $value;
         }
-        print_r($arr);
 
-        // Проверить в $arr входные данные $from $to
-        // Добавить проверенные данные в отдельный массив (ключ(CharCode) -> значение(Value)) и return
+        // Проверить в $valutes входные данные $from $to
+        // Добавить значения $from $to в $result и return
 
-        foreach ($arr as $k=>$v) {
-            if ($k == $this->from and $k == $this->to) {
-                echo $k and $v;
+        $result = array();
+        foreach ($valutes as $k => $v) {
+            if ($k == $this->from) {
+                $result[0] = $v;
+            }
+            elseif ($k == $this->to) {
+                $result[1] = $v;
             }
         }
-
+        return $result;
     }
 
     public function toDecimal(): void
     {
-        // Получить значения по ключу
+        // Индексы: 0->$from 1->$to
 
-        $exchange = $this->GetCurrency();
-
-
+        $actual = $this->GetCurrency();
+        echo ($actual[0] / $actual[1]) * $this->amount;
     }
 }
