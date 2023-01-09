@@ -8,7 +8,7 @@ class ExchangedAmount
     // $amount сумма которую собираются обменять
 
     private $from;
-    private  $to;
+    private $to;
     private $amount;
 
     public function __construct($from, $to, $amount)
@@ -26,7 +26,8 @@ class ExchangedAmount
         $xml = $file->xpath("//Valute");
         $valutes = array();
         for ($i=0; $i<=33; $i++) {
-            $value = floatval($xml[$i]->Value);
+            $nominal = intval($xml[$i]->Nominal);
+            $value = floatval($xml[$i]->Value) / $nominal;
             $code = strval($xml[$i]->CharCode);
             $valutes[$code] = $value;
         }
@@ -51,6 +52,6 @@ class ExchangedAmount
         // Индексы: 0->$from 1->$to
 
         $actual = $this->GetCurrency();
-        echo ($actual[0] / $actual[1]) * $this->amount;
+        echo round($actual[0] / $actual[1] * $this->amount, 2);
     }
 }
