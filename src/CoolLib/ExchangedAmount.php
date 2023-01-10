@@ -18,7 +18,7 @@ class ExchangedAmount
         $this->amount = $amount;
     }
 
-    public function GetCurrency()
+    private function getCurrency(): array
     {
         // Добавил в массив $valutes ключ(CharCode) -> значение(Value)
 
@@ -35,12 +35,14 @@ class ExchangedAmount
         // Проверить в $valutes входные данные $from $to
         // Добавить значения $from $to в $result и return
 
-        $result = array();
+        $result = [];
         foreach ($valutes as $k => $v) {
-            if ($k == $this->from) {
+            if ($k == $this->from)
+            {
                 $result[0] = $v;
             }
-            elseif ($k == $this->to) {
+            elseif ($k == $this->to)
+            {
                 $result[1] = $v;
             }
         }
@@ -51,7 +53,7 @@ class ExchangedAmount
     {
         // Индексы: 0->$from 1->$to
 
-        $actual = $this->GetCurrency();
+        $actual = $this->getCurrency();
         echo round($actual[0] / $actual[1] * $this->amount, 2);
     }
 }
